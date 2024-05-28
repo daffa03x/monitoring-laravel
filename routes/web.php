@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -26,6 +26,9 @@ Route::middleware(['role:admin'])->group(function () {
 
 });
 
+Route::get('/user', [UserController::class, 'index'])->name('user.index');
+Route::get('/user/changePerPage',[UserController::class, 'changePerPage'])->name('user.changePerPage');
+Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
