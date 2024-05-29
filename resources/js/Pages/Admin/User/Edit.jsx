@@ -2,13 +2,13 @@ import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, router, useForm } from "@inertiajs/react";
 
-const Create = ({ auth }) => {
-    const { data, setData, processing, errors } = useForm({
-        name: "",
-        email: "",
+const Edit = ({ auth, user }) => {
+    const { data, setData, patch, processing, errors } = useForm({
+        name: user.name || "",
+        email: user.email || "",
         password: "",
         password_confirmation: "",
-        role: "admin",
+        role: user.role || "admin",
     });
 
     const handleChange = (e) => {
@@ -21,7 +21,7 @@ const Create = ({ auth }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        router.post(route("user.store"), data);
+        router.put(route("user.update", user.id), data);
     };
 
     return (
@@ -29,16 +29,16 @@ const Create = ({ auth }) => {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    User
+                    Edit User
                 </h2>
             }
         >
-            <Head title="Create User" />
+            <Head title="Edit User" />
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <h1 className="text-2xl text-center text-black mt-6">
-                            Create User
+                            Edit User
                         </h1>
                         <div className="mx-auto flex flex-col items-center justify-center">
                             <div className="w-1/2 mx-auto">
@@ -161,4 +161,4 @@ const Create = ({ auth }) => {
     );
 };
 
-export default Create;
+export default Edit;

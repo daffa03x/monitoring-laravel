@@ -13,7 +13,11 @@ export default function Authenticated({ user, header, children }) {
 
     if (!url.includes("/user")) {
         useEffect(() => {
-            localStorage.removeItem("search");
+            localStorage.removeItem("search_user");
+        }, [url]);
+    } else if (!url.includes("/vehicle")) {
+        useEffect(() => {
+            localStorage.removeItem("search_vehicle");
         }, [url]);
     }
     return (
@@ -40,6 +44,12 @@ export default function Authenticated({ user, header, children }) {
                                     active={route().current("user.index")}
                                 >
                                     User
+                                </NavLink>
+                                <NavLink
+                                    href={route("vehicle.index")}
+                                    active={route().current("vehicle.index")}
+                                >
+                                    Vehicle
                                 </NavLink>
                             </div>
                         </div>
@@ -150,6 +160,12 @@ export default function Authenticated({ user, header, children }) {
                             active={route().current("user.index")}
                         >
                             User
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            href={route("vehicle.index")}
+                            active={route().current("vehicle.index")}
+                        >
+                            Vehicle
                         </ResponsiveNavLink>
                     </div>
 
