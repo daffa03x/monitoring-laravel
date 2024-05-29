@@ -12,7 +12,7 @@ const Index = ({ auth, currentPage, totalPages, perPage, data, total }) => {
     }, [perPage]);
 
     useEffect(() => {
-        const storedSearch = localStorage.getItem("search_user");
+        const storedSearch = localStorage.getItem("search_vehicle");
         if (storedSearch) {
             setSearch(storedSearch);
         }
@@ -21,13 +21,13 @@ const Index = ({ auth, currentPage, totalPages, perPage, data, total }) => {
     const handlePerPageChange = (e) => {
         const perPage = parseInt(e.target.value);
         setItemsPerPage(perPage);
-        router.get(route("user.index"), { perPage, page: 1 });
+        router.get(route("vehicle.index"), { perPage, page: 1 });
     };
 
     const handlePageChange = (page) => {
         page = parseInt(page);
-        const storedSearch = localStorage.getItem("search_user");
-        router.get(route("user.index"), {
+        const storedSearch = localStorage.getItem("search_vehicle");
+        router.get(route("vehicle.index"), {
             page,
             perPage: itemsPerPage,
             search: storedSearch,
@@ -37,11 +37,11 @@ const Index = ({ auth, currentPage, totalPages, perPage, data, total }) => {
     const handleSearchChange = (e) => {
         const value = e.target.value;
         setSearch(value);
-        localStorage.setItem("search_user", value);
+        localStorage.setItem("search_vehicle", value);
     };
 
     const handleSearchSubmit = () => {
-        router.get(route("user.index"), {
+        router.get(route("vehicle.index"), {
             page: 1,
             perPage: itemsPerPage,
             search,
@@ -49,18 +49,19 @@ const Index = ({ auth, currentPage, totalPages, perPage, data, total }) => {
     };
 
     const handleDelete = (id) => {
-        router.delete(`/user/${id}/delete`);
+        router.delete(`/vehicle/${id}/delete`);
     };
+
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    User
+                    Vehicle
                 </h2>
             }
         >
-            <Head title="User" />
+            <Head title="Vehicle" />
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -69,14 +70,14 @@ const Index = ({ auth, currentPage, totalPages, perPage, data, total }) => {
                             <Alert />
                             <div className="mb-4 flex justify-between">
                                 <div>
-                                    <h1 className="text-2xl">Data User</h1>
+                                    <h1 className="text-2xl">Data Vehicle</h1>
                                 </div>
                                 <div>
                                     <Link
-                                        href="/user/create"
+                                        href="/vehicle/create"
                                         className="btn btn-sm btn-success text-white"
                                     >
-                                        Add User
+                                        Add Vehicle
                                     </Link>
                                 </div>
                             </div>
@@ -131,9 +132,10 @@ const Index = ({ auth, currentPage, totalPages, perPage, data, total }) => {
                                     <thead>
                                         <tr className="text-black">
                                             <th>#</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Role</th>
+                                            <th>License Plate</th>
+                                            <th>Type</th>
+                                            <th>Owner</th>
+                                            <th>Fuel Capacity</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -144,12 +146,13 @@ const Index = ({ auth, currentPage, totalPages, perPage, data, total }) => {
                                                 key={index}
                                             >
                                                 <th>{index + 1}</th>
-                                                <td>{item.name}</td>
-                                                <td>{item.email}</td>
-                                                <td>{item.role}</td>
+                                                <td>{item.license_plate}</td>
+                                                <td>{item.type}</td>
+                                                <td>{item.owner}</td>
+                                                <td>{item.fuel_capacity}</td>
                                                 <td>
                                                     <Link
-                                                        href={`/user/${item.id}/edit`}
+                                                        href={`/vehicle/${item.id}/edit`}
                                                         className="text-warning me-5"
                                                     >
                                                         Edit
@@ -172,7 +175,7 @@ const Index = ({ auth, currentPage, totalPages, perPage, data, total }) => {
                                         <tr>
                                             <td
                                                 className="text-black"
-                                                colSpan={4}
+                                                colSpan={5}
                                             >
                                                 Total Data : {total}
                                             </td>
